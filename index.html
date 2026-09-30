@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mom's 60th Birthday</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 30%, #211b0d 0%, #0d0b08 45%, #030303 100%);
+            color: #f8e8bd;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        /* =========================================================
+   OPENING SCREEN
+========================================================= */
+
+        .opening {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                radial-gradient(circle at center, rgba(212, 175, 55, .10), transparent 35%),
+                #050505;
+
+            transition:
+                opacity 1.2s ease,
+                visibility 1.2s ease;
+        }
+
+        .opening.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Background glow */
+
+        .opening::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+
+            background: rgba(212, 175, 55, .06);
+            filter: blur(90px);
+        }
+
+        /* Opening content */
+
+        .open-content {
+            position: relative;
+            z-index: 2;
+
+            text-align: center;
+
+            animation: openingFloat 4s ease-in-out infinite;
+        }
+
+        .open-small {
+            font-size: 11px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #c9a948;
+            margin-bottom: 25px;
+        }
+
+        .open-title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 30px;
+            letter-spacing: 3px;
+            color: #f1dfae;
+        }
+
+        .open-subtitle {
+            margin-top: 12px;
+
+            font-family: "Great Vibes", cursive;
+            font-size: 42px;
+            color: #d4af37;
+        }
+
+        /* =========================================================
+   RIBBON
+========================================================= */
+
+        .ribbon-wrapper {
+            position: relative;
+
+            width: 270px;
+            height: 170px;
+
+            margin: 35px auto 30px;
+
+            cursor: pointer;
+
+            transition: transform .4s ease;
+        }
+
+        .ribbon-wrapper:hover {
+            transform: scale(1.04);
+        }
+
+        /* Vertical ribbon */
+
+        .ribbon {
+            position: absolute;
+
+            left: 50%;
+            top: 0;
+
+            transform: translateX(-50%);
+
+            width: 54px;
+            height: 170px;
+
+            background:
+                linear-gradient(90deg,
+                    #8c6813,
+                    #f8df7b,
+                    #c69a25,
+                    #ffeaa0,
+                    #8c6813);
+
+            box-shadow:
+                0 0 20px rgba(212, 175, 55, .25);
+
+            transition:
+                transform 1s ease,
+                opacity 1s ease;
+        }
+
+        /* Ribbon shine */
+
+        .ribbon::before {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            background:
+                linear-gradient(120deg,
+                    transparent,
+                    rgba(255, 255, 255, .4),
+                    transparent);
+
+            animation: ribbonShine 2.5s infinite;
+        }
+
+        /* Bow */
+
+        .bow {
+            position: absolute;
+
+            left: 50%;
+            top: 72px;
+
+            transform: translateX(-50%);
+
+            width: 180px;
+            height: 75px;
+
+            transition:
+                transform 1s ease,
+                opacity 1s ease;
+        }
+
+        .bow-left,
+        .bow-right {
+            position: absolute;
+
+            width: 90px;
+            height: 65px;
+
+            background:
+                linear-gradient(135deg,
+                    #f8df7b,
+                    #b68719,
+                    #f6dc74);
+
+            border: 1px solid rgba(255, 240, 160, .5);
+        }
+
+        .bow-left {
+            left: 0;
+            border-radius: 70% 20% 70% 20%;
+            transform: rotate(15deg);
+        }
+
+        .bow-right {
+            right: 0;
+            border-radius: 20% 70% 20% 70%;
+            transform: rotate(-15deg);
+        }
+
+        .bow-center {
+            position: absolute;
+
+            left: 50%;
+            top: 15px;
+
+            transform: translateX(-50%);
+
+            width: 42px;
+            height: 48px;
+
+            border-radius: 8px;
+
+            background:
+                linear-gradient(90deg,
+                    #a97912,
+                    #ffe890,
+                    #b78919);
+
+            z-index: 2;
+        }
+
+        /* Click text */
+
+        .tap {
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+
+            color: #bba879;
+
+            animation: pulse 2s infinite;
+        }
+
+        /* Opening animation */
+
+        .opening.opened .ribbon {
+            transform: translateX(-50%) translateY(100vh);
+            opacity: 0;
+        }
+
+        .opening.opened .bow {
+            transform: translateX(-50%) scale(1.8) rotate(15deg);
+            opacity: 0;
+        }
+
+        /* =========================================================
+   MAIN EXPERIENCE
+========================================================= */
+
+        .experience {
+            position: fixed;
+            inset: 0;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            opacity: 0;
+            visibility: hidden;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 50px 20px;
+
+            transition:
+                opacity 1.5s ease,
+                visibility 1.5s ease;
+        }
+
+        .experience.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* =========================================================
+   FLOATING PARTICLES
+========================================================= */
+
+        .particles {
+            position: fixed;
+            inset: 0;
+
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+
+            width: 4px;
+            height: 4px;
+
+            border-radius: 50%;
+
+            background: #e7c65e;
+
+            box-shadow:
+                0 0 8px #d4af37;
+
+            animation:
+                floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+
+            0% {
+                transform:
+                    translateY(110vh) translateX(0) scale(.4);
+
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            50% {
+                transform:
+                    translateY(50vh) translateX(40px) scale(1);
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform:
+                    translateY(-10vh) translateX(-30px) scale(.3);
+
+                opacity: 0;
+            }
+        }
+
+        /* =========================================================
+   INVITATION CARD
+========================================================= */
+
+        .invitation {
+            position: relative;
+
+            width: min(850px, 100%);
+
+            min-height: 1000px;
+
+            padding: 75px 60px;
+
+            background:
+                linear-gradient(145deg,
+                    rgba(255, 255, 255, .035),
+                    rgba(255, 255, 255, .01)),
+                #0c0c0b;
+
+            border: 1px solid rgba(212, 175, 55, .7);
+
+            box-shadow:
+                0 0 0 8px #0c0c0b,
+                0 0 0 9px rgba(212, 175, 55, .25),
+                0 35px 100px rgba(0, 0, 0, .8),
+                inset 0 0 80px rgba(212, 175, 55, .025);
+
+            text-align: center;
+
+            transform: scale(.75) translateY(80px);
+
+            opacity: 0;
+
+            animation: none;
+        }
+
+        .experience.visible .invitation {
+            animation:
+                invitationReveal 1.7s cubic-bezier(.16, 1, .3, 1) forwards,
+                invitationFloat 6s ease-in-out 2s infinite;
+        }
+
+        /* =========================================================
+   CARD CORNERS
+========================================================= */
+
+        .corner {
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            border-color: #d4af37;
+
+            opacity: .7;
+        }
+
+        .top-left {
+            top: 22px;
+            left: 22px;
+
+            border-top: 1px solid;
+            border-left: 1px solid;
+        }
+
+        .top-right {
+            top: 22px;
+            right: 22px;
+
+            border-top: 1px solid;
+            border-right: 1px solid;
+        }
+
+        .bottom-left {
+            bottom: 22px;
+            left: 22px;
+
+            border-bottom: 1px solid;
+            border-left: 1px solid;
+        }
+
+        .bottom-right {
+            bottom: 22px;
+            right: 22px;
+
+            border-bottom: 1px solid;
+            border-right: 1px solid;
+        }
+
+        /* =========================================================
+   FLORAL ORNAMENT
+========================================================= */
+
+        .ornament {
+            position: absolute;
+
+            font-size: 65px;
+
+            color: rgba(212, 175, 55, .18);
+
+            font-family: "Cormorant Garamond", serif;
+        }
+
+        .ornament.left {
+            left: 25px;
+            top: 250px;
+
+            transform: rotate(-25deg);
+        }
+
+        .ornament.right {
+            right: 25px;
+            top: 250px;
+
+            transform: rotate(25deg);
+        }
+
+        /* =========================================================
+   CARD CONTENT
+========================================================= */
+
+        .small-heading {
+            font-size: 11px;
+            letter-spacing: 6px;
+
+            text-transform: uppercase;
+
+            color: #d4af37;
+
+            margin-bottom: 18px;
+        }
+
+        .celebrating {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 29px;
+
+            letter-spacing: 2px;
+
+            color: #eadbb6;
+        }
+
+        .mom-name {
+            margin: 18px 0 5px;
+
+            font-family: "Great Vibes", cursive;
+
+            font-size: clamp(70px, 11vw, 110px);
+
+            line-height: 1;
+
+            background:
+                linear-gradient(90deg,
+                    #b8860b,
+                    #fff0a0,
+                    #d4af37,
+                    #fff0a0,
+                    #b8860b);
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            filter:
+                drop-shadow(0 4px 10px rgba(212, 175, 55, .2));
+        }
+
+        .birthday {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 29px;
+
+            letter-spacing: 8px;
+
+            text-transform: uppercase;
+
+            color: #f5e6bd;
+        }
+
+        /* =========================================================
+   60
+========================================================= */
+
+        .age-container {
+            width: 220px;
+            height: 220px;
+
+            margin: 45px auto 30px;
+
+            border-radius: 50%;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            border: 1px solid #d4af37;
+
+            box-shadow:
+                0 0 0 8px rgba(212, 175, 55, .04),
+                0 0 0 9px rgba(212, 175, 55, .25),
+                inset 0 0 60px rgba(212, 175, 55, .05);
+
+            animation:
+                ageGlow 4s ease-in-out infinite;
+        }
+
+        .age {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 105px;
+
+            line-height: .75;
+
+            background:
+                linear-gradient(135deg,
+                    #fff3b0,
+                    #d4af37,
+                    #fff3b0);
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .years {
+            margin-top: 18px;
+
+            font-size: 10px;
+
+            letter-spacing: 5px;
+
+            text-transform: uppercase;
+
+            color: #d4af37;
+        }
+
+        /* =========================================================
+   DIVIDER
+========================================================= */
+
+        .divider {
+            width: 70%;
+
+            margin: 35px auto;
+
+            display: flex;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .divider span {
+            flex: 1;
+
+            height: 1px;
+
+            background:
+                linear-gradient(90deg,
+                    transparent,
+                    #d4af37,
+                    transparent);
+        }
+
+        .diamond {
+            color: #d4af37;
+            font-size: 13px;
+        }
+
+        /* =========================================================
+   MESSAGE
+========================================================= */
+
+        .message {
+            max-width: 650px;
+
+            margin: 30px auto;
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 21px;
+
+            line-height: 1.7;
+
+            color: #ddd1b3;
+        }
+
+        .message strong {
+            color: #f5df9b;
+        }
+
+        /* =========================================================
+   DETAILS
+========================================================= */
+
+        .details {
+            display: flex;
+
+            max-width: 700px;
+
+            margin: 35px auto;
+
+            border: 1px solid rgba(212, 175, 55, .35);
+        }
+
+        .detail {
+            flex: 1;
+
+            padding: 25px 15px;
+        }
+
+        .detail+.detail {
+            border-left: 1px solid rgba(212, 175, 55, .3);
+        }
+
+        .detail-icon {
+            color: #d4af37;
+
+            font-size: 21px;
+
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            font-size: 9px;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+
+            color: #9f947d;
+
+            margin-bottom: 8px;
+        }
+
+        .detail-value {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 20px;
+
+            line-height: 1.3;
+
+            color: #f0e1bd;
+        }
+
+        /* =========================================================
+   RSVP
+========================================================= */
+
+        .rsvp {
+            margin-top: 40px;
+        }
+
+        .rsvp-title {
+            font-size: 10px;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+            color: #d4af37;
+
+            margin-bottom: 10px;
+        }
+
+        .rsvp-text {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 20px;
+
+            color: #e8dcc1;
+        }
+
+        /* =========================================================
+   FOOTER
+========================================================= */
+
+        .footer {
+            margin-top: 45px;
+
+            font-family: "Great Vibes", cursive;
+
+            font-size: 34px;
+
+            color: #d4af37;
+        }
+
+        /* =========================================================
+   KEYFRAMES
+========================================================= */
+
+        @keyframes openingFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes ribbonShine {
+
+            0% {
+                transform: translateX(-100%);
+            }
+
+            50%,
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: .45;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes invitationReveal {
+
+            0% {
+                opacity: 0;
+
+                transform:
+                    scale(.65) translateY(100px) rotateX(20deg);
+            }
+
+            60% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 1;
+
+                transform:
+                    scale(1) translateY(0) rotateX(0);
+            }
+        }
+
+        @keyframes invitationFloat {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform:
+                    translateY(-8px) rotate(.15deg);
+            }
+
+            50% {
+                transform:
+                    translateY(-3px) rotate(0deg);
+            }
+
+            75% {
+                transform:
+                    translateY(-10px) rotate(-.15deg);
+            }
+        }
+
+        @keyframes ageGlow {
+
+            0%,
+            100% {
+                box-shadow:
+                    0 0 0 8px rgba(212, 175, 55, .04),
+                    0 0 0 9px rgba(212, 175, 55, .25),
+                    inset 0 0 60px rgba(212, 175, 55, .05);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 0 8px rgba(212, 175, 55, .08),
+                    0 0 0 9px rgba(212, 175, 55, .45),
+                    0 0 40px rgba(212, 175, 55, .12),
+                    inset 0 0 80px rgba(212, 175, 55, .09);
+            }
+        }
+
+        /* =========================================================
+   MOBILE
+========================================================= */
+
+        @media(max-width:650px) {
+
+            body {
+                overflow: hidden;
+            }
+
+            .experience {
+                align-items: flex-start;
+
+                padding: 25px 12px 40px;
+            }
+
+            .invitation {
+                min-height: auto;
+
+                padding: 60px 24px;
+
+                margin: 15px 0;
+            }
+
+            .corner {
+                width: 60px;
+                height: 60px;
+            }
+
+            .celebrating {
+                font-size: 22px;
+            }
+
+            .mom-name {
+                font-size: 68px;
+            }
+
+            .birthday {
+                font-size: 21px;
+                letter-spacing: 4px;
+            }
+
+            .age-container {
+                width: 175px;
+                height: 175px;
+            }
+
+            .age {
+                font-size: 80px;
+            }
+
+            .message {
+                font-size: 18px;
+            }
+
+            .details {
+                flex-direction: column;
+            }
+
+            .detail+.detail {
+                border-left: none;
+                border-top: 1px solid rgba(212, 175, 55, .3);
+            }
+
+            .divider {
+                width: 90%;
+            }
+
+            .ornament {
+                display: none;
+            }
+        }
+
+        /* =========================================================
+   SCROLLBAR
+========================================================= */
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #080808;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #8e6c1d;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+     OPENING RIBBON
+===================================================== -->
+
+    <section class="opening" id="opening">
+
+        <div class="open-content">
+
+            <div class="open-small">
+                A Special Celebration
+            </div>
+
+            <div class="open-title">
+                An Invitation For You
+            </div>
+
+            <div class="open-subtitle">
+                With Love
+            </div>
+
+
+            <div class="ribbon-wrapper" id="ribbon" onclick="openInvitation()">
+
+                <div class="ribbon"></div>
+
+                <div class="bow">
+
+                    <div class="bow-left"></div>
+
+                    <div class="bow-right"></div>
+
+                    <div class="bow-center"></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="tap">
+                ✦ Tap the ribbon to open ✦
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+     MAIN INVITATION
+===================================================== -->
+
+    <main class="experience" id="experience">
+
+        <div class="particles" id="particles"></div>
+
+
+        <section class="invitation">
+
+            <!-- Decorative corners -->
+
+            <div class="corner top-left"></div>
+            <div class="corner top-right"></div>
+            <div class="corner bottom-left"></div>
+            <div class="corner bottom-right"></div>
+
+
+            <!-- Decorative floral symbols -->
+
+            <div class="ornament left">❧</div>
+            <div class="ornament right">❧</div>
+
+
+            <!-- Header -->
+
+            <div class="small-heading">
+                With Love & Gratitude
+            </div>
+
+            <div class="celebrating">
+                Please Join Us In Celebrating
+            </div>
+
+
+            <div class="mom-name">
+                Mom's
+            </div>
+
+
+            <div class="birthday">
+                60th Birthday
+            </div>
+
+
+            <!-- Age -->
+
+            <div class="age-container">
+
+                <div class="age">
+                    60
+                </div>
+
+                <div class="years">
+                    Beautiful Years
+                </div>
+
+            </div>
+
+
+            <!-- Divider -->
+
+            <div class="divider">
+
+                <span></span>
+
+                <div class="diamond">
+                    ◆
+                </div>
+
+                <span></span>
+
+            </div>
+
+
+            <!-- Message -->
+
+            <div class="message">
+
+                Six beautiful decades of
+                <strong>love, laughter, wisdom and memories</strong>
+                deserve a celebration to remember.
+
+                <br><br>
+
+                Please join us as we celebrate
+                <strong>60 wonderful years</strong>
+                of an extraordinary woman,
+                a loving mother and a beautiful soul.
+
+            </div>
+
+
+            <!-- Event details -->
+
+            <div class="details">
+
+
+                <div class="detail">
+
+                    <div class="detail-icon">
+                        ✦
+                    </div>
+
+                    <div class="detail-label">
+                        Date
+                    </div>
+
+                    <div class="detail-value">
+                        Saturday<br>
+                        14 November 2026
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-icon">
+                        ◷
+                    </div>
+
+                    <div class="detail-label">
+                        Time
+                    </div>
+
+                    <div class="detail-value">
+                        6:30 PM
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-icon">
+                        ⌂
+                    </div>
+
+                    <div class="detail-label">
+                        Venue
+                    </div>
+
+                    <div class="detail-value">
+                        The Grand Celebration<br>
+                        Colombo
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- RSVP -->
+
+            <div class="rsvp">
+
+                <div class="rsvp-title">
+                    Kindly RSVP
+                </div>
+
+                <div class="rsvp-text">
+                    We would be delighted to celebrate
+                    this unforgettable evening with you.
+                </div>
+
+            </div>
+
+
+            <div class="footer">
+                With all our love ♥
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <script>
+
+        /* =====================================================
+           CREATE FLOATING PARTICLES
+        ===================================================== */
+
+        const particleContainer =
+            document.getElementById("particles");
+
+        function createParticles() {
+
+            const particleCount = 45;
+
+            for (let i = 0; i < particleCount; i++) {
+
+                const particle =
+                    document.createElement("div");
+
+                particle.classList.add("particle");
+
+                particle.style.left =
+                    Math.random() * 100 + "%";
+
+                particle.style.animationDuration =
+                    (7 + Math.random() * 10) + "s";
+
+                particle.style.animationDelay =
+                    (-Math.random() * 15) + "s";
+
+                const size =
+                    2 + Math.random() * 4;
+
+                particle.style.width =
+                    size + "px";
+
+                particle.style.height =
+                    size + "px";
+
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+
+        /* =====================================================
+           OPEN INVITATION
+        ===================================================== */
+
+        function openInvitation() {
+
+            const opening =
+                document.getElementById("opening");
+
+            const experience =
+                document.getElementById("experience");
+
+
+            /* Start ribbon opening */
+
+            opening.classList.add("opened");
+
+
+            /*
+               Wait for ribbon animation
+               before revealing invitation
+            */
+
+            setTimeout(() => {
+
+                experience.classList.add("visible");
+
+            }, 650);
+
+
+            /*
+               Completely remove opening
+               after animation
+            */
+
+            setTimeout(() => {
+
+                opening.style.display = "none";
+
+            }, 1800);
+
+        }
+
+    </script>
+
+</body>
+
+</html>
